@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html b:version='2' class='v2' expr:dir='data:blog.languageDirection'
+  xmlns='http://www.w3.org/1999/xhtml'
+  xmlns:b='http://www.google.com/2005/gml/b'
+  xmlns:data='http://www.google.com/2005/gml/data'
+  xmlns:expr='http://www.google.com/2005/gml/expr'
+  lang='id'>
+
+<head>
+  <!-- =============================================
+       META & SEO
+       ============================================= -->
+  <meta charset='UTF-8'/>
+  <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+  <meta content='IE=edge' http-equiv='X-UA-Compatible'/>
+
+  <!-- Dynamic Title -->
+  <title><data:blog.pageTitle/></title>
+  <meta expr:content='data:blog.metaDescription' name='description'/>
+
+  <!-- Open Graph / Social Sharing -->
+  <meta content='website' property='og:type'/>
+  <meta expr:content='data:blog.pageTitle' property='og:title'/>
+  <meta expr:content='data:blog.metaDescription' property='og:description'/>
+  <meta expr:content='data:blog.url' property='og:url'/>
+  <b:if cond='data:blog.postImageThumbnailUrl'>
+    <meta expr:content='data:blog.postImageThumbnailUrl' property='og:image'/>
+    <meta content='1200' property='og:image:width'/>
+    <meta content='630' property='og:image:height'/>
+  <b:else/>
+    <!-- Fallback OG image — ganti dengan URL gambar default blog kamu -->
+    <meta content='https://rapspoint.github.io/my-bloger-theme/og-default.jpg' property='og:image'/>
+  </b:if>
+  <meta expr:content='data:blog.title' property='og:site_name'/>
+
+  <!-- Twitter Card -->
+  <meta content='summary_large_image' name='twitter:card'/>
+  <meta expr:content='data:blog.pageTitle' name='twitter:title'/>
+  <meta expr:content='data:blog.metaDescription' name='twitter:description'/>
+  <b:if cond='data:blog.postImageThumbnailUrl'>
+    <meta expr:content='data:blog.postImageThumbnailUrl' name='twitter:image'/>
+  </b:if>
+
+  <!-- Canonical URL -->
+  <link expr:href='data:blog.url' rel='canonical'/>
+
+  <!-- Favicon -->
+  <link href='https://rapspoint.github.io/my-bloger-theme/favicon.ico' rel='icon' type='image/x-icon'/>
+
+  <!-- =============================================
+       FONTS
+       ============================================= -->
+  <link href='https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Sora:wght@300;400;500;600;700&amp;display=swap' rel='stylesheet'/>
+
+  <!-- =============================================
+       EXTERNAL LIBRARIES
+       ============================================= -->
+  <!-- Tailwind CSS -->
+  <script src='https://cdn.tailwindcss.com'></script>
+
+  <!-- AOS - Animate on Scroll -->
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css' rel='stylesheet'/>
+
+  <!-- =============================================
+       BLOGGER SKIN (base reset)
+       ============================================= -->
+  <b:skin><![CDATA[
+    body { margin: 0; padding: 0; }
+    .widget { margin: 0; padding: 0; }
+  ]]></b:skin>
+
+  <!-- =============================================
+       CUSTOM STYLESHEET (GitHub Pages)
+       ============================================= -->
+  <link href='https://rapspoint.github.io/my-bloger-theme/style.css' rel='stylesheet' type='text/css'/>
+
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['Sora', 'sans-serif'],
+            'mono': ['Space Mono', 'monospace'],
+          },
+          colors: {
+            'neon': '#00ff87',
+            'neon-blue': '#00d4ff',
+            'dark': '#080c10',
+            'dark-2': '#0d1117',
+            'dark-3': '#161b22',
+            'dark-4': '#1e2530',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class='dark bg-dark font-display text-gray-100 overflow-x-hidden'>
+
+  <!-- =============================================
+       PRICE TICKER BAR
+       ============================================= -->
+  <div class='ticker-wrapper' id='ticker-wrapper'>
+    <div class='ticker-label'>
+      <span>LIVE</span>
+    </div>
+    <div class='ticker-track' id='ticker-track'>
+      <div class='ticker-inner' id='ticker-inner'>
+        <!-- Populated by script.js -->
+        <span class='ticker-loading'>Memuat data harga...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       HEADER / NAVBAR
+       ============================================= -->
+  <header class='site-header' id='site-header'>
+    <nav class='nav-container'>
+
+      <!-- Logo -->
+      <a class='site-logo' expr:href='data:blog.homepageUrl'>
+        <span class='logo-bracket'>[</span>
+        <data:blog.title/>
+        <span class='logo-bracket'>]</span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <ul class='nav-links' id='nav-links'>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/search/label/Crypto'>Crypto</a></li>
+        <li><a href='/search/label/Trading'>Trading</a></li>
+        <li><a href='/search/label/News'>News</a></li>
+        <li><a href='/p/about.html'>About</a></li>
+      </ul>
+
+      <!-- Right Controls -->
+      <div class='nav-controls'>
+        <!-- Theme Toggle -->
+        <button aria-label='Toggle dark mode' class='theme-toggle' id='theme-toggle' onclick='toggleTheme()'>
+          <span class='theme-icon' id='theme-icon'>🌙</span>
+        </button>
+        <!-- Search -->
+        <button aria-label='Search' class='nav-icon-btn' onclick='toggleSearch()'>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'>
+            <circle cx='11' cy='11' r='8'/><path d='m21 21-4.35-4.35'/>
+          </svg>
+        </button>
+        <!-- Mobile Menu -->
+        <button aria-label='Menu' class='nav-icon-btn mobile-menu-btn' id='mobile-menu-btn' onclick='toggleMobileMenu()'>
+          <svg fill='none' height='18' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='18'>
+            <line x1='3' x2='21' y1='6' y2='6'/><line x1='3' x2='21' y1='12' y2='12'/><line x1='3' x2='21' y1='18' y2='18'/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Search Bar (hidden by default) -->
+    <div class='search-bar' id='search-bar'>
+      <form action='/search' method='get'>
+        <input class='search-input' name='q' placeholder='Cari artikel...' type='text'/>
+        <button class='search-submit' type='submit'>Cari</button>
+      </form>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class='mobile-menu' id='mobile-menu'>
+      <ul>
+        <li><a href='/'>Home</a></li>
+        <li><a href='/search/label/Crypto'>Crypto</a></li>
+        <li><a href='/search/label/Trading'>Trading</a></li>
+        <li><a href='/search/label/News'>News</a></li>
+        <li><a href='/p/about.html'>About</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- =============================================
+       HERO SECTION (Homepage only)
+       ============================================= -->
+  <b:if cond='data:blog.pageType == &quot;index&quot;'>
+  <section class='hero-section' data-aos='fade-up'>
+    <div class='hero-grid-bg'></div>
+    <div class='hero-content'>
+      <div class='hero-badge'>🔴 Live Market Updates</div>
+      <h1 class='hero-title'>
+        Navigasi <span class='text-neon'>Crypto</span><br/>
+        &amp; Market Global
+      </h1>
+      <p class='hero-subtitle'>
+        Analisis mendalam, sinyal trading, dan berita terkini untuk investor cerdas.
+      </p>
+      <div class='hero-cta'>
+        <a class='btn-primary' href='/search/label/Crypto'>Jelajahi Artikel</a>
+        <a class='btn-outline' href='/p/about.html'>Tentang Kami</a>
+      </div>
+    </div>
+    <div class='hero-visual'>
+      <div class='hero-chart-mock'>
+        <div class='chart-line'></div>
+        <div class='chart-dots'></div>
+      </div>
+    </div>
+  </section>
+  </b:if>
+
+  <!-- =============================================
+       MAIN LAYOUT
+       ============================================= -->
+  <main class='site-main' id='main-content'>
+    <div class='layout-container'>
+
+      <!-- PRIMARY CONTENT -->
+      <div class='content-primary'>
+
+        <!-- ---- BLOG POST LIST (Homepage/Label) ---- -->
+        <b:section class='main' id='main' showaddelement='yes'>
+          <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+            <b:includable id='main' var='top'>
+
+              <!-- Post List View -->
+              <b:loop values='data:posts' var='post'>
+                <b:if cond='data:blog.pageType != &quot;item&quot;'>
+                <article class='post-card' data-aos='fade-up' data-aos-delay='100'>
+                  <b:if cond='data:post.featuredImage'>
+                    <div class='post-card-img'>
+                      <a expr:href='data:post.url'>
+                        <img alt='' class='post-thumbnail' expr:src='data:post.featuredImage' loading='lazy'/>
+                      </a>
+                    </div>
+                  </b:if>
+                  <div class='post-card-body'>
+                    <div class='post-meta'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <a class='post-label' expr:href='data:label.url'><data:label.name/></a>
+                      </b:loop>
+                      <span class='post-date'><data:post.date/></span>
+                    </div>
+                    <h2 class='post-card-title'>
+                      <a expr:href='data:post.url'><data:post.title/></a>
+                    </h2>
+                    <p class='post-card-snippet'><data:post.snippet/></p>
+                    <a class='read-more-btn' expr:href='data:post.url'>
+                      Baca Selengkapnya
+                      <svg fill='none' height='14' stroke='currentColor' stroke-width='2' viewBox='0 0 24 24' width='14'><path d='M5 12h14M12 5l7 7-7 7'/></svg>
+                    </a>
+                  </div>
+                </article>
+                </b:if>
+              </b:loop>
+
+              <!-- Single Post View -->
+              <b:loop values='data:posts' var='post'>
+                <b:if cond='data:blog.pageType == &quot;item&quot;'>
+                <article class='single-post' itemscope='itemscope' itemtype='http://schema.org/BlogPosting'>
+                  <header class='single-post-header' data-aos='fade-up'>
+                    <div class='post-meta'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <a class='post-label' expr:href='data:label.url'><data:label.name/></a>
+                      </b:loop>
+                      <span class='post-date'><data:post.date/></span>
+                    </div>
+                    <h1 class='single-post-title' itemprop='headline'><data:post.title/></h1>
+                    <div class='post-author-row'>
+                      <img alt='Author' class='author-avatar' expr:src='data:post.author.authorPhotoUrl' onerror="this.src='https://ui-avatars.com/api/?name=Author&amp;background=00ff87&amp;color=000'"/>
+                      <div>
+                        <span class='author-name'><data:post.author.name/></span>
+                        <span class='read-time' id='read-time'>· Menghitung waktu baca...</span>
+                      </div>
+                    </div>
+                    <b:if cond='data:post.featuredImage'>
+                      <div class='featured-image-wrap'>
+                        <img alt='' class='featured-image' expr:src='data:post.featuredImage' itemprop='image' loading='eager'/>
+                      </div>
+                    </b:if>
+                  </header>
+
+                  <!-- TOC Placeholder — diisi otomatis oleh script.js -->
+                  <div class='toc-container' id='toc-container'>
+                    <div class='toc-header'>
+                      <span>📋 Daftar Isi</span>
+                      <button class='toc-toggle' onclick='toggleTOC()'>−</button>
+                    </div>
+                    <nav class='toc-nav' id='toc-nav'></nav>
+                  </div>
+
+                  <!-- Post Body -->
+                  <div class='post-body' id='post-body' itemprop='articleBody'>
+                    <data:post.body/>
+                  </div>
+
+                  <!-- Tags -->
+                  <div class='post-tags'>
+                    <b:loop values='data:post.labels' var='label'>
+                      <a class='tag-chip' expr:href='data:label.url'>#<data:label.name/></a>
+                    </b:loop>
+                  </div>
+
+                  <!-- Share Buttons -->
+                  <div class='share-section'>
+                    <span class='share-label'>Bagikan:</span>
+                    <div class='share-btns'>
+                      <a class='share-btn share-twitter' expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + data:post.url + &quot;&amp;text=&quot; + data:post.title' rel='noopener' target='_blank'>X / Twitter</a>
+                      <a class='share-btn share-wa' expr:href='&quot;https://wa.me/?text=&quot; + data:post.title + &quot; &quot; + data:post.url' rel='noopener' target='_blank'>WhatsApp</a>
+                      <a class='share-btn share-fb' expr:href='&quot;https://www.facebook.com/sharer/sharer.php?u=&quot; + data:post.url' rel='noopener' target='_blank'>Facebook</a>
+                    </div>
+                  </div>
+
+                  <!-- Related Posts -->
+                  <div class='related-posts' id='related-posts'></div>
+
+                </article>
+                </b:if>
+              </b:loop>
+
+              <!-- Pagination -->
+              <div class='pagination'>
+                <b:include name='nextprev'/>
+              </div>
+
+            </b:includable>
+
+            <b:includable id='nextprev'>
+              <div class='pagination-links'>
+                <b:if cond='data:newerPageUrl'>
+                  <a class='page-btn' expr:href='data:newerPageUrl'>← Lebih Baru</a>
+                </b:if>
+                <b:if cond='data:olderPageUrl'>
+                  <a class='page-btn' expr:href='data:olderPageUrl'>Lebih Lama →</a>
+                </b:if>
+              </div>
+            </b:includable>
+          </b:widget>
+        </b:section>
+
+      </div><!-- end content-primary -->
+
+      <!-- SIDEBAR -->
+      <aside class='content-sidebar' id='sidebar'>
+
+        <!-- Search Widget -->
+        <div class='sidebar-widget' data-aos='fade-left'>
+          <h3 class='widget-title'>🔍 Cari</h3>
+          <b:section class='sidebar-search' id='sidebar-search' maxwidgets='1' showaddelement='yes'>
+            <b:widget id='HTML1' title='Search' type='HTML'>
+              <b:includable id='main'>
+                <form action='/search' class='sidebar-search-form' method='get'>
+                  <input class='sidebar-search-input' name='q' placeholder='Cari artikel...' type='text'/>
+                  <button class='sidebar-search-btn' type='submit'>→</button>
+                </form>
+              </b:includable>
+            </b:widget>
+          </b:section>
+        </div>
+
+        <!-- Live Prices Widget -->
+        <div class='sidebar-widget' data-aos='fade-left' data-aos-delay='100'>
+          <h3 class='widget-title'>💹 Harga Live</h3>
+          <div id='sidebar-prices'>
+            <div class='price-loading'>Memuat...</div>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class='sidebar-widget' data-aos='fade-left' data-aos-delay='150'>
+          <h3 class='widget-title'>📂 Kategori</h3>
+          <b:section class='sidebar-labels' id='sidebar-labels' maxwidgets='1' showaddelement='yes'>
+            <b:widget id='Label1' title='Labels' type='Label'/>
+          </b:section>
+        </div>
+
+        <!-- Popular Posts -->
+        <div class='sidebar-widget' data-aos='fade-left' data-aos-delay='200'>
+          <h3 class='widget-title'>🔥 Populer</h3>
+          <b:section class='sidebar-popular' id='sidebar-popular' maxwidgets='1' showaddelement='yes'>
+            <b:widget id='PopularPosts1' title='Popular Posts' type='PopularPosts'/>
+          </b:section>
+        </div>
+
+        <!-- AI Assistant Widget -->
+        <div class='sidebar-widget ai-widget' data-aos='fade-left' data-aos-delay='250' id='ai-assistant-widget'>
+          <h3 class='widget-title'>🤖 AI Assistant</h3>
+          <div class='ai-wrapper' id='ai-wrapper'>
+            <!-- 
+              PLACEHOLDER: Masukkan script chatbot pihak ketiga kamu di sini.
+              Contoh: <script src='https://your-chatbot.com/widget.js'></script>
+              Atau embed iframe chatbot di bawah ini:
+            -->
+            <div class='ai-placeholder'>
+              <div class='ai-icon'>🤖</div>
+              <p>AI Assistant siap membantu!</p>
+              <p class='ai-note'>Tambahkan script chatbot kamu di sini.</p>
+            </div>
+          </div>
+        </div>
+
+      </aside><!-- end sidebar -->
+
+    </div><!-- end layout-container -->
+  </main>
+
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer class='site-footer'>
+    <div class='footer-container'>
+
+      <div class='footer-grid'>
+        <!-- Brand -->
+        <div class='footer-brand'>
+          <a class='footer-logo' expr:href='data:blog.homepageUrl'>
+            <span class='logo-bracket'>[</span><data:blog.title/><span class='logo-bracket'>]</span>
+          </a>
+          <p class='footer-desc'>Platform analisis crypto dan market global terpercaya untuk investor cerdas Indonesia.</p>
+          <div class='footer-social'>
+            <a aria-label='Twitter' class='social-link' href='#'>𝕏</a>
+            <a aria-label='Telegram' class='social-link' href='#'>✈</a>
+            <a aria-label='Instagram' class='social-link' href='#'>◎</a>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class='footer-links-col'>
+          <h4>Navigasi</h4>
+          <ul>
+            <li><a href='/'>Home</a></li>
+            <li><a href='/search/label/Crypto'>Crypto</a></li>
+            <li><a href='/search/label/Trading'>Trading</a></li>
+            <li><a href='/search/label/News'>News</a></li>
+          </ul>
+        </div>
+
+        <div class='footer-links-col'>
+          <h4>Info</h4>
+          <ul>
+            <li><a href='/p/about.html'>About</a></li>
+            <li><a href='/p/disclaimer.html'>Disclaimer</a></li>
+            <li><a href='/p/privacy-policy.html'>Privacy Policy</a></li>
+            <li><a href='/p/contact.html'>Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class='footer-disclaimer'>
+          <h4>⚠ Disclaimer</h4>
+          <p>Konten di blog ini hanya untuk tujuan edukasi dan informasi. Bukan merupakan saran investasi. Selalu lakukan riset mandiri sebelum berinvestasi.</p>
+        </div>
+      </div>
+
+      <div class='footer-bottom'>
+        <p>© <span id='year'></span> <data:blog.title/>. All rights reserved.</p>
+        <p class='footer-tech'>Built with ❤ + Blogger</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =============================================
+       FLOATING ELEMENTS
+       ============================================= -->
+  <!-- Back to Top -->
+  <button aria-label='Back to top' class='back-to-top' id='back-to-top' onclick='scrollToTop()'>↑</button>
+
+  <!-- Reading Progress Bar -->
+  <div class='reading-progress' id='reading-progress'></div>
+
+  <!-- =============================================
+       SCRIPTS
+       ============================================= -->
+  <!-- AOS -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js'></script>
+
+  <!-- Custom Script (GitHub Pages) -->
+  <script defer='defer' src='https://rapspoint.github.io/my-bloger-theme/script.js'></script>
+
+  <b:section class='footer-section' id='footer-section' showaddelement='yes'>
+  </b:section>
+
+</body>
+</html>
